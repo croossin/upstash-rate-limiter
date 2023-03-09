@@ -137,15 +137,23 @@ export default function Home({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    const resp = await fetch("https://get.geojs.io/v1/ip.json");
-    const data = await resp.json();
-    const { success, remaining } = await ratelimiter.limit(data.ip);
+    const forwarded = req.headers["x-forwarded-for"];
+
+    const ip =
+      typeof forwarded === "string"
+        ? forwarded.split(/, /)[0]
+        : req.socket.remoteAddress;
+
+    // console.log(ip);
+    // const resp = await fetch("https://get.geojs.io/v1/ip.json");
+    // const data = await resp.json();
+    const { success, remaining } = await ratelimiter.limit(ip!);
     return {
       props: {
         limited: !success,
-        ip: data.ip,
+        ip: ip,
         remaining,
       },
     };
