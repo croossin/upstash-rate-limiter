@@ -146,10 +146,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         ? forwarded.split(/, /)[0]
         : req.socket.remoteAddress;
 
-    // console.log(ip);
-    // const resp = await fetch("https://get.geojs.io/v1/ip.json");
-    // const data = await resp.json();
     const { success, remaining } = await ratelimiter.limit(ip!);
+
     return {
       props: {
         limited: !success,
