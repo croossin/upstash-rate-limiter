@@ -82,7 +82,7 @@ export default function Home({
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
                   Refresh this page 3 times within 10 seconds and you will see
-                  it turn a different color, signifinying you're rate limited
+                  it turn a different color, signifinying you are rate limited
                 </p>
                 {ip && (
                   <p className="mt-6 text-lg leading-8 text-gray-600">
